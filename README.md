@@ -215,6 +215,10 @@ Saved model to C:/Users/admin/Desktop/TF_Models/transformer_seq2seq\ckpt-1000
 ```
 The training progress is shown in Fig. 2.
 
+<img src="train_progress_transformer_dialogue.png" height="500px">
+
+Fig. 2: Training Progress of our modified Transformer Network on movie dialogue dataset
+
 ### Testing the Dialogue Transformer Network Chatbot
 Having trained the chatbot, we can now try out some sample responses using the `movie_dialogue_test.py` script. While in an actual scenario, the replies after the `EOS` token should be disregarded, we display the entire response of the trained model.
 ```
