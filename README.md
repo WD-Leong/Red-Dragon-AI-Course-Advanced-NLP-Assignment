@@ -165,10 +165,43 @@ i EOS EOS EOS EOS EOS EOS EOS EOS EOS PAD
 Actual Response:
 now you know
 --------------------------------------------------
+--------------------------------------------------
+Iteration 12000:
+Elapsed Time: 0.8868237018585206 mins.
+Average Loss: 16.775345306396485
+Gradient Clip: 1.0
+Learning Rate: 0.00040343576
+
+Input Phrase:
+it was open
+Generated Phrase:
+we was EOS PAD PAD PAD PAD PAD PAD PAD PAD
+Actual Response:
+you got a lotta nerve
+
+Saved model to C:/Users/admin/Desktop/TF_Models/transformer_seq2seq\ckpt-480
+--------------------------------------------------
+--------------------------------------------------
+Iteration 20000:
+Elapsed Time: 0.90030277967453 mins.
+Average Loss: 12.416839828491211
+Gradient Clip: 1.0
+Learning Rate: 0.0003125
+
+Input Phrase:
+it s about me and david
+Generated Phrase:
+what would PAD EOS EOS PAD PAD PAD PAD PAD PAD
+Actual Response:
+the perfect couple i should say
+
+Saved model to C:/Users/admin/Desktop/TF_Models/transformer_seq2seq\ckpt-800
+--------------------------------------------------
 ```
 The training progress is shown in Fig. 2.
 
 ### Testing the Dialogue Transformer Network Chatbot
+Having trained the chatbot, we can now try out some sample responses.
 
 ### Conclusion
 In this assignment, we trained a dialogue chatbot using the movie dialogue dataset. Due to computation constraints, the encoder and decoder length were both set to 10, and the standard base Transformer network was used with some minor modifications. We experimented with the prospect of better generalisation using a joint vocabulary due to the high degree of overlap between the input and output responses of the dataset.
