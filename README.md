@@ -96,6 +96,45 @@ with tf.GradientTape() as grad_tape:
 ```
 Following the [T5 paper](https://arxiv.org/abs/1910.10683), 2000 warmup steps with a constant learning rate was applied `step_val = float(max(n_iter+1, warmup_steps))**(-0.5)`.
 
+### Inference with the Transformer
+While the Transformer model is able to train much faster than the Long-Short Term Memory (LSTM) networks due to the absence of recurrence during its training procedure, inference with the Transformer still incorporates recurrence. Our inference uses greedy decoding and is implemented via the `infer` function within the `TransformerNetwork` class.
+```
+def infer(self, x_encode, x_decode):
+    # Encoder. #
+    eps = 1.0e-6
+    x_enc_token = tf.nn.embedding_lookup(self.W_enc_emb, x_encode)
+    x_dec_token = tf.nn.embedding_lookup(self.W_dec_emb, x_decode)
+    
+    ...
+    
+    enc_outputs = transformer_encode(...)
+    
+    # Inference. #
+    infer_embed = [tf.expand_dims(x_dec_token[:, 0, :], axis=1)]
+    infer_index = []
+    for step in range(self.seq_decode):
+        tmp_outputs = transformer_decode(...)
+        
+        tmp_logit  = tf.matmul(
+            tmp_outputs[:, -1, :], self.p_out_decode)
+        tmp_argmax = tf.argmax(
+            tmp_logit, axis=-1, output_type=tf.int32)
+        next_embed = tf.matmul(
+            tf.nn.softmax(tmp_logit), self.W_dec_emb)
+        
+        infer_index.append(tf.expand_dims(tmp_argmax, axis=1))
+        infer_embed.append(tf.expand_dims(next_embed, axis=1))
+        
+    # Concatenate the list into a tensor. #
+    infer_ids = tf.concat(infer_index, axis=1)
+    return infer_ids
+```
+Nonetheless, we remark that our inference uses a softmax to obtain a weighted embedding representation of the next input via
+```
+next_embed = tf.matmul(tf.nn.softmax(tmp_logit), self.W_dec_emb).
+```
+This is to reduce the extent of error propagation caused by incorrect prediction of any label during the inference process.
+
 ### Training the Dialogue Transformer Network
 As the training progressed, the quality of the response was observed to get better and better.
 ```
