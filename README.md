@@ -114,6 +114,9 @@ Actual Response:
 now you know
 --------------------------------------------------
 ```
+The training progress is shown in Fig. 2.
+
+### Testing the Dialogue Transformer Network Chatbot
 
 ### Conclusion
 In this assignment, we trained a dialogue chatbot using the movie dialogue dataset. Due to computation constraints, the encoder and decoder length were both set to 10, and the standard base Transformer network was used with some minor modifications. We experimented with the prospect of better generalisation using a joint vocabulary due to the high degree of overlap between the input and output responses of the dataset.
