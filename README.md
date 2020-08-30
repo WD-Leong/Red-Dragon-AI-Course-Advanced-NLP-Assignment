@@ -54,7 +54,9 @@ One peculiarity that might be observed in our pre-processing is that we used the
 ### Our Transformer Model
 Our Transformer model makes some modifications to the original model, shown in Fig. 1, in that it trains a positional embedding layer at each layer of the encoder and decoder. In addition, it also adds a residual connection between the input embeddings at both the encoder and decoder. Apart from that, there were no further modifications made. The model uses 6 layers for both the encoder and decoder, an embedding dimension of 512, a hidden size of 512 and a feed-forward size of 2048. The sequence length at both the encoder and decoder was set to 10, which led to a total of approximately 94000 dialogue sequences, and a vocabulary of the most common 8000 words was used. A gradient clipping value of 1.0 was set during training as well. 
 
+<img src="transformer_network.JPG" height="500px">
 
+Fig. 1: Original Transformer Network in Attention is All You Need" by Vaswani et al (2017)
 
 Before sending the data into the Transformer model, the dialogue sequences need to be converted into their corresponding integer labels. This is done via
 ```
@@ -112,3 +114,6 @@ Actual Response:
 now you know
 --------------------------------------------------
 ```
+
+### Conclusion
+In this assignment, we trained a dialogue chatbot using the movie dialogue dataset. Due to computation constraints, the encoder and decoder length were both set to 10, and the standard base Transformer network was used with some minor modifications. We experimented with the prospect of better generalisation using a joint vocabulary due to the high degree of overlap between the input and output responses of the dataset.
