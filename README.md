@@ -52,11 +52,11 @@ word2idx = dict([
 One peculiarity that might be observed in our pre-processing is that we used the same vocabulary for both the input and the output. This is because the dataset includes multi-turn conversations, where the output of the previous conversation could become the input of the next conversation. Hence, the vocabulary of the input and output responses have a high overlap, and we experiment training our Transformer Network using a single joint vocabulary to observe whether it is able to generalise its responses better. However, it is worth noting that while the vocabulary is shared between the input and the output responses, the encoder and decoder side do not share the same embeddings.
 
 ### Our Transformer Model
-Our Transformer model makes some modifications to the original model, shown in Fig. 1, in that it trains a positional embedding layer at each layer of the encoder and decoder. In addition, it also adds a residual connection between the input embeddings at both the encoder and decoder. Apart from that, there were no further modifications made. The model uses 6 layers for both the encoder and decoder, an embedding dimension of 512, a hidden size of 512 and a feed-forward size of 2048. The sequence length at both the encoder and decoder was set to 10, which led to a total of approximately 94000 dialogue sequences, and a vocabulary of the most common 8000 words was used. A gradient clipping value of 1.0 was set during training as well. 
+Our Transformer model makes some modifications to the original model, shown in Fig. 1, in that it trains a positional embedding layer at each layer of the encoder and decoder. In addition, it also adds a residual connection between the input embeddings at both the encoder and decoder, as well as applied layer normalisation before the residual connection. Apart from that, there were no further modifications made. The model uses 6 layers for both the encoder and decoder, an embedding dimension of 512, a hidden size of 512 and a feed-forward size of 2048. The sequence length at both the encoder and decoder was set to 10, which led to a total of approximately 94000 dialogue sequences, and a vocabulary of the most common 8000 words was used. A dropout regularization of 0.1 was set and the gradient was clipped at 1.0 during training. 
 
 <img src="transformer_network.JPG" height="500px">
 
-Fig. 1: Original Transformer Network in Attention is All You Need" by Vaswani et al (2017)
+Fig. 1: Original Transformer Network in "Attention is All You Need" by Vaswani et al (2017)
 
 Before sending the data into the Transformer model, the dialogue sequences need to be converted into their corresponding integer labels. This is done via
 ```
