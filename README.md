@@ -58,6 +58,17 @@ Our Transformer model makes some modifications to the original model, shown in F
 
 Fig. 1: Original Transformer Network in "Attention is All You Need" by Vaswani et al (2017)
 
+_Author's Note: An experimental feature to learn a weighted representation of the encoder embeddings to add to the decoder before it begins decoding was used in this assignment.
+```
+enc_dec_scores = tf.nn.relu(tf.transpose(tf.tensordot(
+    x_enc_token, self.p_enc_decode, [[2], [0]]), [0, 2, 1])) + eps
+enc_dec_alphas = tf.divide(
+    enc_dec_scores, tf.reduce_sum(
+        enc_dec_scores, axis=[-1], keepdims=True))
+x_enc_decoder  = tf.matmul(enc_dec_alphas, x_enc_token)
+```
+So far, this feature was observed to occasionally help in the decoding, but there is no effect at other times. In most cases, the model's performance does not appear to degrade too much with the inclusion of this feature apart from making the model larger than necessary. In this assignment, we had erroneously used the wrong version which included this experimental feature but was unfortunately not able to re-train the model due to time constraints._
+
 Before sending the data into the Transformer model, the dialogue sequences need to be converted into their corresponding integer labels. This is done via
 ```
 tmp_i_tok = data_tuple[tmp_index][0].split(" ")
