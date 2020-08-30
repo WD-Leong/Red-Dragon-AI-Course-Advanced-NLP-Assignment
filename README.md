@@ -165,7 +165,6 @@ i EOS EOS EOS EOS EOS EOS EOS EOS EOS PAD
 Actual Response:
 now you know
 --------------------------------------------------
---------------------------------------------------
 Iteration 12000:
 Elapsed Time: 0.8868237018585206 mins.
 Average Loss: 16.775345306396485
@@ -180,7 +179,6 @@ Actual Response:
 you got a lotta nerve
 
 Saved model to C:/Users/admin/Desktop/TF_Models/transformer_seq2seq\ckpt-480
---------------------------------------------------
 --------------------------------------------------
 Iteration 20000:
 Elapsed Time: 0.90030277967453 mins.
