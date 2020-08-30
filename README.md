@@ -113,6 +113,8 @@ def infer(self, x_encode, x_decode):
     infer_embed = [tf.expand_dims(x_dec_token[:, 0, :], axis=1)]
     infer_index = []
     for step in range(self.seq_decode):
+        ...
+        
         tmp_outputs = transformer_decode(...)
         
         tmp_logit  = tf.matmul(
