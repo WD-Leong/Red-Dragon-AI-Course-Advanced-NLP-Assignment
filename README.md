@@ -54,22 +54,11 @@ One peculiarity that might be observed in our pre-processing is that we used the
 ### Our Transformer Model
 Our Transformer model makes some modifications to the original model, shown in Fig. 1, in that it trains a positional embedding layer at each layer of the encoder and decoder. In addition, it also adds a residual connection between the input embeddings at both the encoder and decoder, as well as applied layer normalisation before the residual connection. Apart from that, there were no further modifications made. 
 
-The model uses 6 layers for both the encoder and decoder, an embedding dimension of 512, a hidden size of 512 and a feed-forward size of 2048. The sequence length at both the encoder and decoder was set to 10, which led to a total of approximately 94000 dialogue sequences, and a vocabulary of the most common 8000 words was used. A dropout probability of 0.1 was set to allow the model to generalise and the gradient was clipped at 1.0 during training. The loss function is the cross-entropy loss function and the Adam optimizer was used to perform the weight updates.
+The model uses 3 layers for both the encoder and decoder, an embedding dimension of 512, a hidden size of 256 and a feed-forward size of 1024. The sequence length at both the encoder and decoder was set to 10, which led to a total of approximately 94000 dialogue sequences, and a vocabulary of the most common 8000 words was used. A dropout probability of 0.1 was set to allow the model to generalise and the gradient was clipped at 1.0 during training. The loss function is the cross-entropy loss function and the Adam optimizer was used to perform the weight updates.
 
 <img src="transformer_network.JPG" height="500px">
 
 Fig. 1: Original Transformer Network in "Attention is All You Need" by Vaswani et al (2017)
-
-_Author's Note: An experimental feature to learn a weighted representation of the encoder embeddings to add to the decoder before it begins decoding was used in this assignment. The implementation of this feature is given in the snippet below:_
-```
-enc_dec_scores = tf.nn.relu(tf.transpose(tf.tensordot(
-    x_enc_token, self.p_enc_decode, [[2], [0]]), [0, 2, 1])) + eps
-enc_dec_alphas = tf.divide(
-    enc_dec_scores, tf.reduce_sum(
-        enc_dec_scores, axis=[-1], keepdims=True))
-x_enc_decoder  = tf.matmul(enc_dec_alphas, x_enc_token)
-```
-_where the weights are made positive via the ReLU activation function and normalised to sum to one. So far, this feature was observed to occasionally help in the decoding, but there is no effect at other times. In most cases, the model's performance does not appear to degrade too much with the inclusion of this feature apart from making the model larger than necessary. In this assignment, we had erroneously used the wrong version which included this experimental feature but was unfortunately not able to re-train the model due to time constraints._
 
 Before sending the data into the Transformer model, the dialogue sequences need to be converted into their corresponding integer labels. This is done via
 ```
@@ -90,7 +79,7 @@ Trainable params: 57,198,080
 Non-trainable params: 0
 _________________________________________________________________
 ```
-Due to limitations on the GPU card, we accumulate the gradients manually across sub-batches of 32, then average it to apply the overall weight update across a larger batch, since we observe that larger batch sizes tend to stabilise the training of Transformer networks. 
+Due to limitations on the GPU card, we accumulate the gradients manually across sub-batches of 64, then average it to apply the overall weight update across a larger batch of 256 examples, since it is observed that larger batch sizes tend to stabilise the training of Transformer networks. 
 ```
 with tf.GradientTape() as grad_tape:
     output_logits = model(tmp_encode, tmp_decode)
