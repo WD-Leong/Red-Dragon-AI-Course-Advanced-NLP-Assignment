@@ -259,3 +259,6 @@ As we can observe, the chatbot appears to generate relatively proper responses. 
 
 ### Conclusion
 In this assignment, we trained a dialogue chatbot using the movie dialogue dataset. Due to computation constraints, the encoder and decoder length were both set to 10, and the standard base Transformer network was used with some minor modifications. We experimented with the prospect of better generalisation using a joint vocabulary due to the high degree of overlap between the input and output responses of the dataset. The base Transformer model can also be observed to provide proper replies in general. Due to time constraints, hyper-parameter tuning was not performed.
+
+### Appendix: Hardware
+The model was trained using a Nvidia Quadro P1000 4GB Graphics Card.
